@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton(typeof(GoogleSheetsHelper));
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("BenchDatabase"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("BenchDatabase")!);
 });
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 

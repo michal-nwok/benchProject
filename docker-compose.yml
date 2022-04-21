@@ -1,0 +1,12 @@
+﻿version: '3.4'
+
+services:
+  bench.api:
+    image: ${DOCKER_REGISTRY-}benchapi
+    ports: 
+      - 8001:80
+      - 8000:443
+    build:
+      context: .
+      dockerfile: BenchAPI/Dockerfile
+
