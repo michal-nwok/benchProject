@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using benchAPI.Helpers;
+﻿using benchAPI.Data;
 using benchAPI.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +10,11 @@ namespace benchAPI.Controllers;
 public class StockController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly DataContext _context;
 
-    public StockController( IMediator mediator)
+    public StockController( IMediator mediator, DataContext context)
     {
+        _context = context;
         _mediator = mediator;
     }
 
@@ -25,28 +26,15 @@ public class StockController : ControllerBase
         return Ok(result);
     }
 
-    // [HttpGet("{dateFrom}/{dateTo}")]
-    // public async Task<IActionResult> GetStocksBetweenDates(string dateFrom, string dateTo)
-    // {
-    //     DateTime dateFromParsed;
-    //     DateTime dateToParsed;
-    //     
-    //     if (!DateTime.TryParseExact(dateFrom, Constants.DATE_FORMAT, new CultureInfo("en-US"), 
-    //             DateTimeStyles.None, out dateFromParsed))
-    //     {
-    //         return Problem();
-    //     }
-    //     if (!DateTime.TryParseExact(dateTo, Constants.DATE_FORMAT, new CultureInfo("en-US"),
-    //             DateTimeStyles.None, out dateToParsed))
-    //     {
-    //         return Problem();
-    //     }
-    //
-    //     if (dateFromParsed > dateToParsed)
-    //     {
-    //         return Problem();
-    //     }
-    //     
-    //     return Ok($"{dateFromParsed} - {dateToParsed}");
-    // }
+    [HttpGet("{dateFrom}/{dateTo}")]
+    public async Task<IActionResult> GetStocksBetweenDates(DateTime dateFrom, DateTime dateTo)
+    {
+        if (dateFrom > dateTo)
+        {
+            return Problem();
+        }
+        var query = new GetStocksBetweenDatesQuery(dateFrom, dateTo);
+        var result = await _mediator.Send(query);
+        return Ok(result);
+    }
 }

@@ -3,7 +3,7 @@ using benchAPI.Models;
 
 namespace benchAPI.Helpers;
 
-public class StocksMapper
+public class StocksHelper
 {
     public static List<Stock> ResponseToStocksList(IList<IList<object>> values)
     {
@@ -19,5 +19,11 @@ public class StocksMapper
             });
         }
         return stocks;
+    }
+
+    public static bool IsValidDate(string date)
+    {
+        return !DateTime.TryParseExact(date, Constants.DATE_FORMAT, new CultureInfo("en-US"), DateTimeStyles.None,
+            out var dateFromParsed);
     }
 }

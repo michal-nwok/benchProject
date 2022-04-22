@@ -26,6 +26,7 @@ public class GetAllStocksHandler : IRequestHandler<GetAllStocksQuery, List<Stock
         var response = await sheetRequest.ExecuteAsync(cancellationToken);
         var values = response.Values;
 
-        return StocksMapper.ResponseToStocksList(values);
+        return StocksHelper.ResponseToStocksList(values);
     }
+    
 }
