@@ -10,11 +10,9 @@ namespace benchAPI.Controllers;
 public class StockController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly DataContext _context;
 
-    public StockController( IMediator mediator, DataContext context)
+    public StockController( IMediator mediator)
     {
-        _context = context;
         _mediator = mediator;
     }
 
