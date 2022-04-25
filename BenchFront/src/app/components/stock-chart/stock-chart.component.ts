@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts/highstock';
 import {StockService} from "../../services/stock.service";
+import {MatDatepickerInputEvent} from "@angular/material/datepicker";
+import {FormControl, FormGroup} from "@angular/forms";
+import {DatePipe} from "@angular/common";
 @Component({
   selector: 'app-stock-chart',
   templateUrl: './stock-chart.component.html',
@@ -8,7 +11,7 @@ import {StockService} from "../../services/stock.service";
 })
 export class StockChartComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
-  chartData: Array<number[]> = [[], []];
+  chartData?: Array<number[]>;
   constructorType: string = 'stockChart';
   chartOptions: Highcharts.Options = {
     title: {
@@ -19,13 +22,15 @@ export class StockChartComponent implements OnInit {
       type: 'line',
     }],
   };
-  constructor(private stocksService: StockService) { }
+
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
+
+  constructor(private stocksService: StockService, public datepipe: DatePipe) { }
 
   ngOnInit(): void {
-    this.stocksService.getStocks().subscribe(result => {
-      this.chartData = result.map(stock => [new Date(stock.date).getTime(), stock.closePrice])
-      this.updateChart(this.chartData);
-    })
   }
 
   updateChart(newData: Array<number[]>) {
@@ -35,6 +40,21 @@ export class StockChartComponent implements OnInit {
         type: 'line'
       }]
     };
+  }
+
+  generateChart(event: MatDatepickerInputEvent<any>) {
+    if(this.range.value.start == null || this.range.value.end == null || this.range.value.start > this.range.value.end)
+    {
+      return;
+    }
+
+    let dateFrom = this.datepipe.transform(this.range.value.start, 'yyyy-MM-dd HH:mm:ss')
+    let dateTo = this.datepipe.transform(this.range.value.end, 'yyyy-MM-dd HH:mm:ss')
+
+    this.stocksService.getStocksBetweenDates(dateFrom!, dateTo!).subscribe(result => {
+      this.chartData = result.map(stock => [new Date(stock.date).getTime(), stock.closePrice])
+      this.updateChart(this.chartData);
+    })
   }
 
 }

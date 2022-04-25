@@ -17,4 +17,9 @@ export class StockService {
   getStocks(): Observable<Stock[]> {
     return this.http.get<Stock[]>('https://localhost:7031/v1/stock', this.httpOptions);
   }
+
+  getStocksBetweenDates(dateFrom: string, dateTo: string) : Observable<Stock[]>
+  {
+    return this.http.get<Stock[]>('https://localhost:7031/v1/stock/'+encodeURIComponent(dateFrom)+'/'+encodeURIComponent(dateTo), this.httpOptions);
+  }
 }
