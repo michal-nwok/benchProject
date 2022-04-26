@@ -3,6 +3,7 @@ using benchAPI.Data;
 using benchAPI.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,13 @@ builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SchemaGeneratorOptions = new SchemaGeneratorOptions
+    {
+        SchemaIdSelector = type => type.FullName
+    };
+});
 
 var app = builder.Build();
 

@@ -11,7 +11,6 @@ public class StocksHelper
 
         foreach (var stock in values)
         {
-            //if (DateTime.Parse(stock[0].ToString()!) > DateTime.Parse("2018-01-01"))
             stocks.Add(new Stock()
             {
                 Date = DateTime.ParseExact(stock[0].ToString()!, Constants.DATE_FORMAT, new CultureInfo("en-US")),

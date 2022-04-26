@@ -20,6 +20,6 @@ export class StockService {
 
   getStocksBetweenDates(dateFrom: string, dateTo: string) : Observable<Stock[]>
   {
-    return this.http.get<Stock[]>('https://localhost:7031/v1/stock/'+encodeURIComponent(dateFrom)+'/'+encodeURIComponent(dateTo), this.httpOptions);
+    return this.http.get<Stock[]>('https://localhost:8000/v1/stock/'+encodeURIComponent(dateFrom)+'/'+encodeURIComponent(dateTo), this.httpOptions);
   }
 }
