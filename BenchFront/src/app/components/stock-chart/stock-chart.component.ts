@@ -4,11 +4,20 @@ import {StockService} from "../../services/stock.service";
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import {FormControl, FormGroup} from "@angular/forms";
 import {DatePipe} from "@angular/common";
+import {Stock} from "../../models/stock";
+
+export interface Response {
+  stocks: Stock[];
+}
+
 @Component({
   selector: 'app-stock-chart',
   templateUrl: './stock-chart.component.html',
   styleUrls: ['./stock-chart.component.css']
 })
+
+
+
 export class StockChartComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
   chartData?: Array<number[]>;
@@ -52,7 +61,8 @@ export class StockChartComponent implements OnInit {
     let dateTo = this.datepipe.transform(this.range.value.end, 'yyyy-MM-dd HH:mm:ss')
 
     this.stocksService.getStocksBetweenDates(dateFrom!, dateTo!).subscribe(result => {
-      this.chartData = result.map(stock => [new Date(stock.date).getTime(), stock.closePrice])
+      console.log(result.stocks)
+      this.chartData = result.stocks.map(stock => [new Date(stock.date).getTime(), stock.closePrice])
       this.updateChart(this.chartData);
     })
   }

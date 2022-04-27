@@ -2,6 +2,11 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Stock} from "../models/stock";
+import {environment} from "../../environments/environment";
+
+export interface Response {
+  stocks: Stock[];
+}
 
 const header: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
@@ -14,12 +19,9 @@ export class StockService {
   };
   constructor(private http: HttpClient) { }
 
-  getStocks(): Observable<Stock[]> {
-    return this.http.get<Stock[]>('https://localhost:7031/v1/stock', this.httpOptions);
-  }
-
-  getStocksBetweenDates(dateFrom: string, dateTo: string) : Observable<Stock[]>
+  getStocksBetweenDates(dateFrom: string, dateTo: string) : Observable<Response>
   {
-    return this.http.get<Stock[]>('https://localhost:8000/v1/stock/'+encodeURIComponent(dateFrom)+'/'+encodeURIComponent(dateTo), this.httpOptions);
+    let apiString = environment.apiUrl + 'stocksByDates?dateFrom=' + encodeURIComponent(dateFrom)+'&dateTo='+encodeURIComponent(dateTo);
+    return this.http.get<Response>(apiString , this.httpOptions);
   }
 }

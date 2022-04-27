@@ -43,7 +43,7 @@ namespace benchAPI.GetStocksBetweenDates
             var stocksFromSheet = result.stocks;
             
             var currentDatabaseList = _context.Stocks.Where(stock => stock.Date >= request.DateFrom && stock.Date < request.DateTo).ToList();
-        
+            
             if (stocksFromSheet.Count == currentDatabaseList.Count)
             {
                 return new Response
@@ -62,6 +62,7 @@ namespace benchAPI.GetStocksBetweenDates
             await _context.SaveChangesAsync();
             
             var stocksFromDatabase = await _context.Stocks.Where(stock => stock.Date >= request.DateFrom && stock.Date < request.DateTo).ToListAsync();
+
             return new Response
             {
                 stocks = stocksFromDatabase,
