@@ -2,7 +2,7 @@
 
 services:
   bench.api:
-    image: ${DOCKER_REGISTRY-}benchapi
+    image: crystal1337/benchapi
     ports: 
       - 8001:80
       - 8000:443
@@ -11,7 +11,7 @@ services:
       dockerfile: BenchAPI/Dockerfile
       
   bench.front:
-    image: ${DOCKER_REGISTRY-}benchfront
+    image: crystal1337/benchfront
     ports:
       - 4200:80
     build:
