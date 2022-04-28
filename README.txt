@@ -1,0 +1,1 @@
+﻿.NET https - https://www.yogihosting.com/docker-https-aspnet-core/
