@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace benchAPI;
 
 [ApiController]
-[Route("api/stock")]
+[Route("api/stocks")]
 public class StockApiController : ControllerBase
 {
     private readonly ISender _mediator;
