@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Reflection;
 using benchAPI.Data;
 using benchAPI.Helpers;
@@ -6,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
-
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("pl-PL");
+CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("pl-PL");
 // Add services to the container.
 builder.Services.AddSingleton(typeof(GoogleSheetsHelper));
 builder.Services.AddDbContext<DataContext>(options =>
