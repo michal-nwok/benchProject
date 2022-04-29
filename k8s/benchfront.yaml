@@ -1,0 +1,49 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: benchfront-deployment
+  labels:
+    app: benchfront
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: benchfront
+  template:
+    metadata:
+      labels:
+        app: benchfront
+    spec:
+      containers:
+        - name: front
+          image: crystal1337/benchfront:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: BackUrl
+              valueFrom:
+                configMapKeyRef:
+                  name: benchapi-configmap
+                  key: benchapi_url
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: benchfront-service
+spec:
+  type: NodePort
+  selector:
+    app: benchfront
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 80
+      nodePort: 30000

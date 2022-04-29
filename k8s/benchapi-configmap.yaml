@@ -1,0 +1,6 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: benchapi-configmap
+data:
+  benchapi_url: http://benchapi-service:8000
