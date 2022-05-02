@@ -8,8 +8,8 @@ trigger:
         - main
     paths:
       include:
-        - BenchFront/*
-        - aks/benchfront.yaml
+        - ./BenchFront/*
+        - ./aks/benchfront.yaml
 
 resources:
   - repo: self
