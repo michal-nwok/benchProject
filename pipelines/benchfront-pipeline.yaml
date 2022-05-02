@@ -5,11 +5,11 @@
 trigger:
     branches:
       include:
-        - main
+        - master
     paths:
       include:
-        - ./BenchFront/*
-        - ./aks/benchfront.yaml
+        - BenchFront/*
+        - aks/benchfront.yaml
 
 resources:
   - repo: self
