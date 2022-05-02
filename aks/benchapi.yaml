@@ -1,0 +1,53 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: benchapi-deployment
+  labels:
+    app: benchapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: benchapi
+  template:
+    metadata:
+      labels:
+        app: benchapi
+        service: benchapi
+    spec:
+      containers:
+        - name: webapi
+          image: benchcontainerregistry.azurecr.io/benchapi:v2
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ASPNETCORE_URLS
+              value: http://+:80
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+      imagePullSecrets:
+        - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: benchapi-service
+  labels:
+    app: benchapi
+    service: benchapi
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      protocol: TCP
+  selector:
+    app: benchapi
