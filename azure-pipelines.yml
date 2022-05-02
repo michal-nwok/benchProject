@@ -12,7 +12,7 @@ variables:
 
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'b4542e18-b0aa-4eb6-81aa-68b0c9a71ab4'
-  imageRepository: 'shoppingapi'
+  imageRepository: 'benchapi'
   containerRegistry: 'benchcontainerregistry.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
