@@ -71,7 +71,7 @@ stages:
             inputs:
               action: deploy
               manifests: |
-                $(Pipeline.Workspace)/manifests/benchapi.yml
+                $(Pipeline.Workspace)/manifests/benchapi.yaml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
